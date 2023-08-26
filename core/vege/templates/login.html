@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block start %}
+
+<div class="container mt-5">
+<!--encytype = multipart /form-data must be added to the form, otherwise, uploading image functionality won't work from frontend to backend-->
+<form class="col-6 mx-auto card p-3 shadow-lg" method="POST" enctype="multipart/form-data" >
+    {% csrf_token %} <!-- it issues a csrf token generated and issued when a user request to get the site (new at each request),
+                       it ensures that the data is not being passed to the server in any unethical means -->
+    <h2>Login</h2>
+    <hr>
+
+    {% if messages %}
+
+    <div class="alert alert-primary" role="alert">
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+      </div>
+
+{% endif %}
+
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Username</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      
+      <p> Don't have account <a href="/register/">Register</a></p>
+  
+  
+    </form>
+<!-- {{receipes}} get value from context from the views.py from backend to frontend -->
+
+
+</div>
+
+{% endblock %}

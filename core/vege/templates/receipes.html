@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block start %}
+
+<div class="container mt-5">
+<!--encytype = multipart /form-data must be added to the form, otherwise, uploading image functionality won't work from frontend to backend-->
+<form class="col-6 mx-auto card p-3 shadow-lg" method="POST" enctype="multipart/form-data" >
+    {% csrf_token %} <!-- it issues a csrf token generated and issued when a user request to get the site (new at each request),
+                       it ensures that the data is not being passed to the server in any unethical means -->
+    <h2>Add Receipe</h2>
+    <hr>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Receipe name</label>
+      <input name= "receipe_name" required type="text" class="form-control">
+    </div>
+    <div class=" form-group">
+      <label for="exampleInputPassword1">Receipe Description</label>
+      <textarea class="form-control" required name="receipe_description"></textarea>
+    </div>
+    
+      <div class="form-group">
+        <label for="exampleInputPassword1">Receipe Image</label>
+        <input name="receipe_image" type="file" class="form-control">
+      </div>
+    
+    <button type="submit" class="btn btn-success">Add Receipe</button>
+  </form>
+<!-- {{receipes}} get value from context from the views.py from backend to frontend -->
+<hr>
+<form >
+<div class="mt-5">
+  <div class="mx-auto col-6">
+    <div class="mb-3">
+      <label for="exampleInputEmail1">Search Food</label>
+      <input name= "search" type="text">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+    
+  </div>
+</div>
+</form>
+
+<table class="table mt-5">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Receipe name</th>
+        <th scope="col">Receipe Description</th>
+        <th scope="col">Receipe Image</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for receipe in receipes %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{receipe.receipe_name}}</td>
+        <td>{{receipe.receipe_description}}</td>
+        <!-- image will not show, untill you set the media directory that is public static in the django-->
+        <td>
+          <img src="/media/{{receipe.receipe_image}}" style="height: 100px;">
+        </td> 
+        <td>
+          <a href="/delete-receipe/{{receipe.id}}">
+          <button class="btn-danger m-2">Delete</button>
+          </a>
+          <a href="/update-receipe/{{receipe.id}}">
+            <button class="btn-success">Update</button>
+            </a>
+        </td>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+{% endblock %}
